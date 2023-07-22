@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -24,6 +25,7 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
+        Log::info(json_encode($request->all()));
 
 
         $validator = Validator::make($request->all(), [
@@ -41,7 +43,7 @@ class StudentController extends Controller
             'facebook_link' => 'nullable|string',
             'youtube_link' => 'nullable|string',
             'linkedin_link' => 'nullable|string',
-            'attachment_file' => 'nullable|string',
+            // 'attachment_file' => 'nullable|string',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -65,6 +67,7 @@ class StudentController extends Controller
             'linkedin_link' => $request->linkedin_link,
             'attachment_file' => $request->attachment_file,
         ];
+
 
 
 
