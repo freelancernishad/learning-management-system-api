@@ -25,7 +25,6 @@ class StudentController extends Controller
     public function store(Request $request)
     {
 
-        Log::info(json_encode($request->all()));
 
 
         $validator = Validator::make($request->all(), [
@@ -65,9 +64,19 @@ class StudentController extends Controller
             'facebook_link' => $request->facebook_link,
             'youtube_link' => $request->youtube_link,
             'linkedin_link' => $request->linkedin_link,
-            'attachment_file' => $request->attachment_file,
+            // 'attachment_file' => $request->attachment_file,
         ];
 
+
+
+
+  if ($request->hasFile('attachment_file')) {
+        $file = $request->file('attachment_file');
+         $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('attachments', $fileName, 'public');
+        $validatedData['attachment_file'] = $filePath;
+
+    }
 
 
 
