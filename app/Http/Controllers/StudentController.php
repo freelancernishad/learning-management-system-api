@@ -27,26 +27,26 @@ class StudentController extends Controller
 
 
 
-        $validator = Validator::make($request->all(), [
-            'founder_name' => 'required|string',
-            'company_name' => 'required|string',
-            'founder_email' => 'required|email',
-            'location' => 'required|string',
-            'founder_phone' => 'required|string',
-            'business_category' => 'required|string',
-            'founder_gender' => 'required|string',
-            'website_url' => 'nullable|string',
-            'employee_number' => 'nullable|integer',
-            'formation_of_company' => 'nullable',
-            'company_video_link' => 'nullable|string',
-            'facebook_link' => 'nullable|string',
-            'youtube_link' => 'nullable|string',
-            'linkedin_link' => 'nullable|string',
-            // 'attachment_file' => 'nullable|string',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'founder_name' => 'required|string',
+        //     'company_name' => 'required|string',
+        //     'founder_email' => 'required|email',
+        //     'location' => 'required|string',
+        //     'founder_phone' => 'required|string',
+        //     'business_category' => 'required|string',
+        //     'founder_gender' => 'required|string',
+        //     'website_url' => 'nullable|string',
+        //     'employee_number' => 'nullable|integer',
+        //     'formation_of_company' => 'nullable',
+        //     'company_video_link' => 'nullable|string',
+        //     'facebook_link' => 'nullable|string',
+        //     'youtube_link' => 'nullable|string',
+        //     'linkedin_link' => 'nullable|string',
+        //     // 'attachment_file' => 'nullable|string',
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json(['errors' => $validator->errors()], 422);
+        // }
 
 
         $validatedData = [
