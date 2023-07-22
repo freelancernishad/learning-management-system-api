@@ -7,9 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class BatchController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $batches = Batch::with('students')->get();
+
+
+        $perpage = $request->perpage;
+        if($perpage){
+            $batches = Batch::with('students')->paginate($perpage);
+        }else{
+            $batches = Batch::with('students')->get();
+        }
+
         return response()->json($batches);
     }
 
