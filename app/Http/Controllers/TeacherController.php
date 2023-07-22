@@ -8,10 +8,18 @@ use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Fetch all users with the role 'teacher'
-        $teachers = User::where('role', 'teacher')->get();
+
+
+        $perpage = $request->perpage;
+        if($perpage){
+            $teachers = User::where('role', 'teacher')->paginate($perpage);
+        }else{
+            $teachers = User::where('role', 'teacher')->get();
+        }
+
         return response()->json($teachers);
     }
 
