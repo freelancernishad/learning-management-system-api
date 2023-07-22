@@ -26,5 +26,11 @@ class Student extends Model
         'youtube_link',
         'linkedin_link',
         'attachment_file',
+        'batch_id'
     ];
+    
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class);
+    }
 }
