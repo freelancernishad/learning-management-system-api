@@ -21,6 +21,9 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::post('/check/login', [AuthController::class, 'checkTokenExpiration'])->name('checklogin');
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/students', [StudentController::class, 'store']);
 

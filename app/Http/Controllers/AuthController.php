@@ -38,6 +38,33 @@ class AuthController extends Controller
         return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
+
+
+public function checkTokenExpiration(Request $request)
+{
+
+$token = $request->token;
+
+
+    try {
+        $payload = JWTAuth::setToken($token)->getPayload();
+
+        // Check if the token's expiration time (exp) is greater than the current timestamp
+        $isExpired = $payload->get('exp') < time();
+        $user = JWTAuth::setToken($token)->authenticate();
+        return response()->json(['message' => 'Token is valid', 'user' => $user], 200);
+    } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+        // Token has expired
+        return response()->json(['message' => 'Token has expired'], 401);
+    } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+        // Token is invalid
+        return response()->json(['message' => 'Invalid token'], 401);
+    } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+        // Token not found or other JWT exception
+        return response()->json(['message' => 'Error while processing token'], 500);
+    }
+}
+
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
