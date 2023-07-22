@@ -25,7 +25,7 @@ class QuestionController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-        
+
         // Create the question
         $question = new Question();
         $question->question_text = $request->input('question_text');
@@ -53,9 +53,12 @@ class QuestionController extends Controller
     public function update(Request $request, $id)
     {
         // Validate the request data for question
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'question_text' => 'required|string',
         ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         // Update the question
         $question = Question::findOrFail($id);
