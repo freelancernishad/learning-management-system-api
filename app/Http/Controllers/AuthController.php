@@ -31,7 +31,8 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $token = JWTAuth::fromUser($user);
+            // $token = JWTAuth::fromUser($user);
+            $token = JWTAuth::fromUser($user, ['guard' => 'user']);
             return response()->json(['token' => $token], 200);
         }
 
@@ -47,11 +48,14 @@ $token = $request->token;
 
 
     try {
+
         $payload = JWTAuth::setToken($token)->getPayload();
 
         // Check if the token's expiration time (exp) is greater than the current timestamp
         $isExpired = $payload->get('exp') < time();
-        $user = JWTAuth::setToken($token)->authenticate();
+
+        $user = Auth::guard('web')->setToken($token)->authenticate();
+        // $user = JWTAuth::setToken($token)->authenticate();
         return response()->json(['message' => 'Token is valid', 'user' => $user], 200);
     } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
         // Token has expired

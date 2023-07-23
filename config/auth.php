@@ -37,8 +37,9 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
+            'driver' => 'jwt',
             'provider' => 'users',
+            'secret' => env('JWT_SECRET')
         ],
 
         'api' => [
