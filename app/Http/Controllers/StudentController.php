@@ -86,7 +86,7 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        $student = Student::find($id);
+        $student = Student::with('exams')->find($id);
         if (!$student) {
             return response()->json(['error' => 'Student not found'], 404);
         }
