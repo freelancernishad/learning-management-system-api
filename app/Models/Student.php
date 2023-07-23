@@ -28,9 +28,13 @@ class Student extends Model
         'attachment_file',
         'batch_id'
     ];
-    
+
     public function batch()
     {
         return $this->belongsTo(Batch::class);
+    }
+    public function exams()
+    {
+        return $this->belongsToMany(Exam::class, 'exam_student')->withPivot('score');
     }
 }
