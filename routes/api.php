@@ -27,12 +27,15 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 
 
-
 Route::post('/student/login', [StudentAuthController::class, 'login']);
 Route::post('/check/student/login', [StudentAuthController::class, 'checkTokenExpiration']);
 Route::middleware('auth:student')->group(function () {
     Route::post('/student/logout', [StudentAuthController::class, 'logout']);
     Route::get('/student/check-token', [StudentAuthController::class, 'checkToken']);
+
+    Route::get('/students/profile/{id}', [StudentController::class, 'show']);
+    Route::get('/exam/questions', [QuestionController::class, 'index']);
+    Route::get('/student/exams', [ExamController::class, 'index']);
     // Add other protected routes specific to students here
 });
 
@@ -58,3 +61,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('batches', BatchController::class);
     Route::apiResource('exams', ExamController::class);
 });
+
+
+
+
