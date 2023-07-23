@@ -43,12 +43,14 @@ return [
 
         'api' => [
             'driver' => 'jwt',
-            'provider' => 'students',
+            'provider' => 'users',
+            'secret' => env('JWT_SECRET')
         ],
 
         'student' => [
             'driver' => 'jwt',
             'provider' => 'students',
+            'secret' => env('STUDENT_JWT_SECRET')
         ],
 
     ],
