@@ -6,7 +6,7 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
 {
@@ -47,7 +47,7 @@ class StudentController extends Controller
         // if ($validator->fails()) {
         //     return response()->json(['errors' => $validator->errors()], 422);
         // }
-
+         $password = Hash::make($request->input('password'));
 
         $validatedData = [
             'founder_name' => $request->founder_name,
@@ -64,8 +64,10 @@ class StudentController extends Controller
             'facebook_link' => $request->facebook_link,
             'youtube_link' => $request->youtube_link,
             'linkedin_link' => $request->linkedin_link,
+            'password' => $password,
             // 'attachment_file' => $request->attachment_file,
         ];
+
 
 
 

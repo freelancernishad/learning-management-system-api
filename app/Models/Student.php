@@ -3,17 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
+
+class Student extends Authenticatable implements JWTSubject
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
 
     protected $fillable = [
         'founder_name',
         'company_name',
         'short_note',
         'founder_email',
+        'password',
         'location',
         'founder_phone',
         'business_category',
@@ -28,6 +34,19 @@ class Student extends Model
         'attachment_file',
         'batch_id'
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    // Required method from JWTSubject
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+
 
     public function batch()
     {

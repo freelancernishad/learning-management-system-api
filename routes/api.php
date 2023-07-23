@@ -8,6 +8,7 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\StudentAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,18 @@ use App\Http\Controllers\QuestionController;
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+
+Route::post('/student/login', [StudentAuthController::class, 'login']);
+Route::post('/check/student/login', [StudentAuthController::class, 'checkTokenExpiration']);
+Route::middleware('auth:student')->group(function () {
+    Route::post('/student/logout', [StudentAuthController::class, 'logout']);
+    Route::get('/student/check-token', [StudentAuthController::class, 'checkToken']);
+    // Add other protected routes specific to students here
+});
+
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
