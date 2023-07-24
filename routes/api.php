@@ -36,7 +36,7 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/students/profile/{id}', [StudentController::class, 'show']);
     Route::get('/exam/questions', [QuestionController::class, 'index']);
     Route::get('/student/exams', [ExamController::class, 'index']);
-    Route::get('/student/exams', [ExamController::class, 'store']);
+    Route::post('/student/exams', [ExamController::class, 'store']);
     // Add other protected routes specific to students here
 });
 
