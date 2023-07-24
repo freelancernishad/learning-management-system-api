@@ -32,7 +32,8 @@ class Student extends Authenticatable implements JWTSubject
         'youtube_link',
         'linkedin_link',
         'attachment_file',
-        'batch_id'
+        'batch_id',
+        'rating'
     ];
 
     public function getJWTIdentifier()

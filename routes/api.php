@@ -36,6 +36,7 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/students/profile/{id}', [StudentController::class, 'show']);
     Route::get('/exam/questions', [QuestionController::class, 'index']);
     Route::get('/student/exams', [ExamController::class, 'index']);
+    Route::get('/student/exams', [ExamController::class, 'store']);
     // Add other protected routes specific to students here
 });
 
@@ -51,6 +52,11 @@ Route::post('/students', [StudentController::class, 'store']);
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     // Route::apiResource('students', StudentController::class);
+
+    Route::post('/students/set/ratings/{id}', [StudentController::class, 'setRating']);
+
+
+
     Route::get('/students', [StudentController::class, 'index']);
     Route::get('/students/{id}', [StudentController::class, 'show']);
     Route::put('/students/{id}', [StudentController::class, 'update']);

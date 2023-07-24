@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('linkedin_link')->nullable();
             $table->string('attachment_file')->nullable();
             $table->unsignedBigInteger('batch_id')->nullable();
+            $table->integer('rating')->nullable();
             $table->string('password');
             $table->string('remember_token', 100)->nullable();
             $table->string('api_token', 80)->unique()->nullable();

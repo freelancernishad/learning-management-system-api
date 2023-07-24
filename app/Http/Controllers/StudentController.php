@@ -22,6 +22,16 @@ class StudentController extends Controller
         return response()->json($students);
     }
 
+    public function setRating(Request $request,$id)
+    {
+
+        $rating = $request->rating;
+       $student = Student::find($id);
+       $student->update(['rating'=>$rating]);
+        return response()->json($student);
+    }
+
+
     public function store(Request $request)
     {
 
