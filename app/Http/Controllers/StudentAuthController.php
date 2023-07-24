@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class StudentAuthController extends Controller
 {
@@ -53,11 +53,20 @@ class StudentAuthController extends Controller
 
 
 
-    public function logout(Request $request)
-    {
-        $request->user('student')->token()->revoke();
-        return response()->json(['message' => 'Logged out successfully']);
+public function logout(Request $request)
+{
+    try {
+        $token = $request->bearerToken();
+        if ($token) {
+            JWTAuth::setToken($token)->invalidate();
+            return response()->json(['message' => 'Logged out successfully']);
+        } else {
+            return response()->json(['message' => 'Invalid token'], 401);
+        }
+    } catch (JWTException $e) {
+        return response()->json(['message' => 'Error while processing token'], 500);
     }
+}
 
     public function checkToken(Request $request)
     {

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
@@ -71,8 +72,17 @@ $token = $request->token;
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
-        return response()->json(['message' => 'Logged out successfully'], 200);
+        try {
+            $token = $request->bearerToken();
+            if ($token) {
+                JWTAuth::setToken($token)->invalidate();
+                return response()->json(['message' => 'Logged out successfully'], 200);
+            } else {
+                return response()->json(['message' => 'Invalid token'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['message' => 'Error while processing token'], 500);
+        }
     }
 
     public function register(Request $request)
