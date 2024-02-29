@@ -57,4 +57,9 @@ class Student extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Exam::class, 'exam_student')->withPivot('score');
     }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'student_enrollments');
+    }
 }
