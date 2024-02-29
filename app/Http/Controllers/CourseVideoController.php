@@ -18,7 +18,7 @@ class CourseVideoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'video_name' => 'required|string|max:255',
-            'module_id' => 'required|exists:course_modules,id',
+            'course_module_id' => 'required|exists:course_modules,id',
             'video_url' => 'required|url',
         ]);
 
@@ -46,7 +46,7 @@ class CourseVideoController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'video_name' => 'string|max:255',
-            'module_id' => 'exists:course_modules,id',
+            'course_module_id' => 'exists:course_modules,id',
             'video_url' => 'url',
         ]);
 

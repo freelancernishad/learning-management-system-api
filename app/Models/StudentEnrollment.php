@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Str;
 class StudentEnrollment extends Model
 {
     use HasFactory;
@@ -24,4 +24,5 @@ class StudentEnrollment extends Model
     {
         return $this->belongsTo(Course::class);
     }
+
 }

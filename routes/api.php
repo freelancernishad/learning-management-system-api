@@ -13,6 +13,7 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\StudentAuthController;
 use App\Http\Controllers\CourseModuleController;
+use App\Http\Controllers\CourseCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,54 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 
 
+
+Route::get('courses/categories', [CourseCategoryController::class, 'index']);
+Route::post('courses/categories', [CourseCategoryController::class, 'store']);
+Route::get('courses/categories/{id}', [CourseCategoryController::class, 'show']);
+Route::put('courses/categories/{id}', [CourseCategoryController::class, 'update']);
+Route::delete('courses/categories/{id}', [CourseCategoryController::class, 'destroy']);
+
+
+Route::get('courses/', [CourseController::class, 'index']);
+Route::post('courses/', [CourseController::class, 'store']);
+Route::get('courses/{id}', [CourseController::class, 'show']);
+Route::put('courses/{id}', [CourseController::class, 'update']);
+Route::delete('courses/{id}', [CourseController::class, 'destroy']);
+
+
+
+Route::get('modules/', [CourseModuleController::class, 'index']);
+Route::post('modules/', [CourseModuleController::class, 'store']);
+Route::get('modules/{id}', [CourseModuleController::class, 'show']);
+Route::put('modules/{id}', [CourseModuleController::class, 'update']);
+Route::delete('modules/{id}', [CourseModuleController::class, 'destroy']);
+
+Route::get('course/videos', [CourseVideoController::class, 'index']);
+Route::post('course/videos/', [CourseVideoController::class, 'store']);
+Route::get('course/videos/{id}', [CourseVideoController::class, 'show']);
+Route::put('course/videos/{id}', [CourseVideoController::class, 'update']);
+Route::delete('course/videos/{id}', [CourseVideoController::class, 'destroy']);
+
+
+Route::get('/enrollments', [EnrollmentController::class, 'index']);
+Route::post('/enrollments', [EnrollmentController::class, 'store']);
+Route::get('/enrollments/{id}', [EnrollmentController::class, 'show']);
+Route::put('/enrollments/{id}', [EnrollmentController::class, 'update']);
+Route::delete('/enrollments/{id}', [EnrollmentController::class, 'destroy']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Route::post('/student/login', [StudentAuthController::class, 'login']);
 Route::post('/check/student/login', [StudentAuthController::class, 'checkTokenExpiration']);
 Route::middleware('auth:student')->group(function () {
@@ -41,34 +90,6 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/exam/questions', [QuestionController::class, 'index']);
     Route::get('/student/exams', [ExamController::class, 'index']);
     Route::post('/student/exams', [ExamController::class, 'store']);
-
-
-        Route::get('courses/', [CourseController::class, 'index']);
-        Route::post('courses/', [CourseController::class, 'store']);
-        Route::get('courses/{id}', [CourseController::class, 'show']);
-        Route::put('courses/{id}', [CourseController::class, 'update']);
-        Route::delete('courses/{id}', [CourseController::class, 'destroy']);
-
-
-
-    Route::get('modules/', [CourseModuleController::class, 'index']);
-    Route::post('modules/', [CourseModuleController::class, 'store']);
-    Route::get('modules/{id}', [CourseModuleController::class, 'show']);
-    Route::put('modules/{id}', [CourseModuleController::class, 'update']);
-    Route::delete('modules/{id}', [CourseModuleController::class, 'destroy']);
-
-    Route::get('course/videos', [CourseVideoController::class, 'index']);
-    Route::post('course/videos/', [CourseVideoController::class, 'store']);
-    Route::get('course/videos/{id}', [CourseVideoController::class, 'show']);
-    Route::put('course/videos/{id}', [CourseVideoController::class, 'update']);
-    Route::delete('course/videos/{id}', [CourseVideoController::class, 'destroy']);
-
-
-    Route::get('/enrollments', [EnrollmentController::class, 'index']);
-    Route::post('/enrollments', [EnrollmentController::class, 'store']);
-    Route::get('/enrollments/{id}', [EnrollmentController::class, 'show']);
-    Route::put('/enrollments/{id}', [EnrollmentController::class, 'update']);
-    Route::delete('/enrollments/{id}', [EnrollmentController::class, 'destroy']);
 
 
 

@@ -9,7 +9,7 @@ class CourseModuleController extends Controller
 {
     public function index()
     {
-        $modules = CourseModule::paginate(10);
+        $modules = CourseModule::with('videos')->paginate(10);
 
         return response()->json(['data' => $modules], 200);
     }
