@@ -5,10 +5,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\BatchController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\StudentAuthController;
+use App\Http\Controllers\CourseModuleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +41,38 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/exam/questions', [QuestionController::class, 'index']);
     Route::get('/student/exams', [ExamController::class, 'index']);
     Route::post('/student/exams', [ExamController::class, 'store']);
-    // Add other protected routes specific to students here
+
+
+        Route::get('courses/', [CourseController::class, 'index']);
+        Route::post('courses/', [CourseController::class, 'store']);
+        Route::get('courses/{id}', [CourseController::class, 'show']);
+        Route::put('courses/{id}', [CourseController::class, 'update']);
+        Route::delete('courses/{id}', [CourseController::class, 'destroy']);
+
+
+
+    Route::get('modules/', [CourseModuleController::class, 'index']);
+    Route::post('modules/', [CourseModuleController::class, 'store']);
+    Route::get('modules/{id}', [CourseModuleController::class, 'show']);
+    Route::put('modules/{id}', [CourseModuleController::class, 'update']);
+    Route::delete('modules/{id}', [CourseModuleController::class, 'destroy']);
+
+    Route::get('course/videos', [CourseVideoController::class, 'index']);
+    Route::post('course/videos/', [CourseVideoController::class, 'store']);
+    Route::get('course/videos/{id}', [CourseVideoController::class, 'show']);
+    Route::put('course/videos/{id}', [CourseVideoController::class, 'update']);
+    Route::delete('course/videos/{id}', [CourseVideoController::class, 'destroy']);
+
+
+    Route::get('/enrollments', [EnrollmentController::class, 'index']);
+    Route::post('/enrollments', [EnrollmentController::class, 'store']);
+    Route::get('/enrollments/{id}', [EnrollmentController::class, 'show']);
+    Route::put('/enrollments/{id}', [EnrollmentController::class, 'update']);
+    Route::delete('/enrollments/{id}', [EnrollmentController::class, 'destroy']);
+
+
+
+
 });
 
 
@@ -66,6 +101,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('teachers', TeacherController::class);
     Route::apiResource('batches', BatchController::class);
     Route::apiResource('exams', ExamController::class);
+
+
+
+
+
 });
 
 
