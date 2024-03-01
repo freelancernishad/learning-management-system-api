@@ -9,7 +9,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::paginate(10);
+        $courses = Course::with(['category', 'modules.videos', 'students'])->paginate(10);
 
         return response()->json(['data' => $courses], 200);
     }
