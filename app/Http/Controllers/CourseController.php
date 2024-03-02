@@ -76,7 +76,7 @@ class CourseController extends Controller
             'descriptions' => $request->input('descriptions'),
             'requirements' => $request->input('requirements'),
             // 'what_you_learn' => $whatUlearn,
-            // 'features' => $features,            
+            // 'features' => $features,
             'what_you_learn' => $request->input('whatUlearn'),
             'features' => $request->input('features'),
             'demo_certificate' => $path,
@@ -97,7 +97,7 @@ class CourseController extends Controller
     }
     public function getcourses($id)
     {
-        $course = Course::find($id);
+        $course = Course::with(['modules'])->find($id);
 
         if (!$course) {
             return response()->json(['message' => 'Course not found'], 404);
