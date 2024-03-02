@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::with(['category', 'modules.videos', 'students'])->paginate(10);
-
+        $type = $request->type;
+        if($type=='courselist'){
+            $courses = Course::all();
+        }else{
+            $courses = Course::with(['category', 'modules.videos', 'students'])->paginate(10);
+        }
         return response()->json(['data' => $courses], 200);
     }
 
@@ -31,7 +35,7 @@ class CourseController extends Controller
 
     public function show($id)
     {
-        $course = Course::find($id);
+        $course = Course::with(['category', 'modules.videos', 'students'])->find($id);
 
         if (!$course) {
             return response()->json(['message' => 'Course not found'], 404);
