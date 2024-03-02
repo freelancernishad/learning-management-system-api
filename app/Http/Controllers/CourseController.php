@@ -43,6 +43,16 @@ class CourseController extends Controller
 
         return response()->json(['data' => $course], 200);
     }
+    public function getcourses($id)
+    {
+        $course = Course::find($id);
+
+        if (!$course) {
+            return response()->json(['message' => 'Course not found'], 404);
+        }
+
+        return response()->json(['data' => $course], 200);
+    }
 
     public function update(Request $request, $id)
     {

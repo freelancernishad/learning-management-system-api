@@ -33,11 +33,9 @@ class CourseCategoryController extends Controller
     public function show($id)
     {
         $category = CourseCategory::find($id);
-
         if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
-
         return response()->json(['data' => $category], 200);
     }
 
