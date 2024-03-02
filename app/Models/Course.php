@@ -16,6 +16,18 @@ class Course extends Model
         'id',
         'course_name',
         'course_category_id',
+        'instructor',
+        'rating',
+        'price',
+        'previous_price',
+        'discount',
+        'about_video',
+        'targeted_audience',
+        'descriptions',
+        'requirements',
+        'whatUlearn',
+        'features',
+        'demo_certificate',
     ];
 
     public function category()
