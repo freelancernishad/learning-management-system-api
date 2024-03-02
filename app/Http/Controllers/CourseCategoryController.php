@@ -9,7 +9,8 @@ class CourseCategoryController extends Controller
 {
     public function index()
     {
-        $categories = CourseCategory::paginate(10);
+
+        $categories = CourseCategory::orderBy('created_at','desc')->get();
 
         return response()->json(['data' => $categories], 200);
     }
