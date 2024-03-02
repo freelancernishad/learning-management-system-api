@@ -33,11 +33,13 @@ class CourseController extends Controller
             'targeted_audience' => 'nullable|string',
             'descriptions' => 'nullable|string',
             'requirements' => 'nullable|string',
-            'whatUlearn' => 'nullable|array',
-            'whatUlearn.*' => 'string',
-            'features' => 'nullable|array',
-            'features.*' => 'string',
-            'demo_certificate' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048',
+            // 'whatUlearn' => 'nullable|array',
+            // 'whatUlearn.*' => 'string',
+            'whatUlearn' => 'string',
+            // 'features' => 'nullable|array',
+            // 'features.*' => 'string',
+            'features' => 'string',
+            // 'demo_certificate' => 'nullable|file|mimes:pdf,jpg,png,jpeg|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -57,8 +59,8 @@ class CourseController extends Controller
         }
 
         // Process array inputs
-        $whatUlearn = $request->input('whatUlearn') ? json_encode($request->input('whatUlearn')) : null;
-        $features = $request->input('features') ? json_encode($request->input('features')) : null;
+        // $whatUlearn = $request->input('whatUlearn') ? json_encode($request->input('whatUlearn')) : null;
+        // $features = $request->input('features') ? json_encode($request->input('features')) : null;
 
         // Create the course
         $course = Course::create([
@@ -73,8 +75,10 @@ class CourseController extends Controller
             'targeted_audience' => $request->input('targeted_audience'),
             'descriptions' => $request->input('descriptions'),
             'requirements' => $request->input('requirements'),
-            'what_you_learn' => $whatUlearn,
-            'features' => $features,
+            // 'what_you_learn' => $whatUlearn,
+            // 'features' => $features,            
+            'what_you_learn' => $request->input('whatUlearn'),
+            'features' => $request->input('features'),
             'demo_certificate' => $path,
         ]);
 
