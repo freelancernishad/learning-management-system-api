@@ -14,6 +14,7 @@ use App\Http\Controllers\CourseVideoController;
 use App\Http\Controllers\StudentAuthController;
 use App\Http\Controllers\CourseModuleController;
 use App\Http\Controllers\CourseCategoryController;
+use App\Http\Controllers\payment\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,10 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
+
+Route::post('create/payment', [PaymentController::class, 'create']);
 
 
 
