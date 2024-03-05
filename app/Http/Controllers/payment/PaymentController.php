@@ -9,11 +9,11 @@ class PaymentController extends Controller
 {
     function create(Request $request) {
 
-        $baseUrl = 'https://tokenized.pay.bka.sh/v1.2.0-beta/tokenized/';
+        $baseUrl = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/';
         $username = '01760418424';
         $Password = 'l0)U%UEh3:Z';
-        $app_key = 'YArVqU8ipYJ6jX4QBOTvPjq8tc';
-        $app_secret = 'Uh6O8jq2P29sQgEHyGlczm0tY6v1UexXP7h3OJvvZbXiLiiJCvgB';
+        $app_key = '4f6o0cjiki2rfm34kfdadl1eqq';
+        $app_secret = '2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b';
 
 
         $tokenHeader = [
