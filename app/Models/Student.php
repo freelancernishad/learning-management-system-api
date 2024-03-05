@@ -62,4 +62,11 @@ class Student extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Course::class, 'student_enrollments');
     }
+
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
 }

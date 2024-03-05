@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\payment;
 
-use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
 {
     function create(Request $request) {
 
         $baseUrl = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/';
-        $username = '01760418424';
-        $Password = 'l0)U%UEh3:Z';
+        $username = 'sandboxTokenizedUser02';
+        $Password = 'sandboxTokenizedUser02@12345';
         $app_key = '4f6o0cjiki2rfm34kfdadl1eqq';
         $app_secret = '2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b';
 
@@ -53,15 +54,93 @@ class PaymentController extends Controller
             "intent": "sale",
             "merchantInvoiceNumber": "'.$invoiceNo.'"
          }';
+
+
+
+
+
+
+
          $paymentCreateUrl = $baseUrl.'checkout/create';
         $paymentCreate =  $this->apicall($paymentCreateHeader,$paymentCreateBody,$paymentCreateUrl);
+
+        $payment = new Payment();
+        $payment->student_id = $request->input('student_id');
+        $payment->trxid = $invoiceNo;
+        $payment->amount = $amount;
+        $payment->total_amount = $amount;
+        $payment->mobile_no = '01909756552';
+        $payment->date = date('Y-m-d');
+        $payment->status = 'Pending';
+        $payment->month = date('F');
+        $payment->year = date('Y');
+        $payment->payment_type = 'online';
+        $payment->paymentID = $paymentCreate->paymentID;
+        $payment->id_token = $id_token;
+        $payment->app_key = $app_key;
+        $payment->refresh_token = $refresh_token;
+
+        $payment->payment_url = $paymentCreate->bkashURL;
+        $payment->save();
 
 
       return ['paymentID'=>$paymentCreate->paymentID,'bkashURL'=>$paymentCreate->bkashURL];
 
+    }
+
+
+    function checkPayment(Request $request) {
+
+        $paymentID = $request->paymentID;
+        $payment = Payment::where('paymentID',$paymentID)->first();
+
+        $id_token = $payment->id_token;
+        $app_key = $payment->app_key;
 
 
 
+
+
+
+
+        //  $baseUrl = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/';
+        //  $paymentCreateUrl = $baseUrl.'checkout/execute';
+
+        // $paymentCreate =  $this->apicall($paymentCreateHeader,$paymentCreateBody,$paymentCreateUrl);
+
+
+        $curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/execute',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+	"paymentID" : "'.$paymentID.'"
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: '.$id_token,
+    'X-App-Key: '.$app_key,
+    'Content-Type: application/json'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+return $response;
+
+
+
+
+
+
+        // return $paymentCreate;
 
 
     }
