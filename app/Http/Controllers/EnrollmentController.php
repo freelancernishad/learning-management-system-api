@@ -15,7 +15,7 @@ class EnrollmentController extends Controller
         $student_id = $request->student_id;
 
         if($student_id){
-            $enrollments = StudentEnrollment::with('student', 'course.modules.videos')->where(['student_id'=>$student_id])->first();
+            $enrollments = StudentEnrollment::with('student', 'courses.modules.videos')->where(['student_id'=>$student_id])->first();
         }else{
             $enrollments = StudentEnrollment::with('student', 'course')->paginate(10);
         }
