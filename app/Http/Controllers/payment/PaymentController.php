@@ -44,10 +44,11 @@ class PaymentController extends Controller
 
         $invoiceNo = 'Inv-'.time();
         $amount = $request->amount;
+        $callbackURL = $request->callbackURL;
          $paymentCreateBody ='{
             "mode": "0011",
             "payerReference": "01722597565",
-            "callbackURL": "https://softwebsys.com",
+            "callbackURL": "'.$callbackURL.'",
             "merchantAssociationInfo": "MI05MID54RF09123456One",
             "amount": "'.$amount.'",
             "currency": "BDT",
