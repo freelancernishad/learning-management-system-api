@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreignUuid('course_id')->constrained()->onDelete('cascade');
             $table->string('trxid')->nullable();
             $table->decimal('amount', 10, 2)->nullable();
             $table->decimal('vat', 10, 2)->nullable();

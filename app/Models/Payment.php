@@ -11,6 +11,7 @@ class Payment extends Model
 
     protected $fillable = [
         'student_id',
+        'course_id',
         'trxid',
         'amount',
         'vat',

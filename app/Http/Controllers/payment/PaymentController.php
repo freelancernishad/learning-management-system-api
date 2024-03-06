@@ -4,6 +4,7 @@ namespace App\Http\Controllers\payment;
 
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use App\Models\StudentEnrollment;
 use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
@@ -68,6 +69,7 @@ class PaymentController extends Controller
 
         $payment = new Payment();
         $payment->student_id = $request->input('student_id');
+        $payment->course_id = $request->input('course_id');
         $payment->trxid = $invoiceNo;
         $payment->amount = $amount;
         $payment->total_amount = $amount;
@@ -192,7 +194,22 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 
 curl_close($curl);
-return json_decode($response);
+
+
+$res =  json_decode($response);
+if($res->transactionStatus=='Completed' && $res->verificationStatus=='Complete'){
+  $payment->update(['status'=>'Paid']);
+
+  $enrolldata = [
+    'student_id'=>$payment->student_id,
+    'course_id'=>$payment->course_id,
+  ];
+  $enrollment = StudentEnrollment::create($enrolldata);
+
+
+}
+
+return $res;
 
 
 
