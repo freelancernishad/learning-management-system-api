@@ -9,9 +9,19 @@ use Illuminate\Support\Facades\Validator;
 
 class EnrollmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $enrollments = StudentEnrollment::with('student', 'course')->paginate(10);
+
+        $student_id = $request->student_id;
+
+        if($student_id){
+            $enrollments = StudentEnrollment::with('student', 'course.modules.videos')->where(['student_id'=>$student_id])->first();
+        }else{
+            $enrollments = StudentEnrollment::with('student', 'course')->paginate(10);
+        }
+
+
+
 
         return response()->json(['data' => $enrollments], 200);
     }
