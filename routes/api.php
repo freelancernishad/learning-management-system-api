@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::post('create/payment', [PaymentController::class, 'create']);
 
 Route::post('check/payment', [PaymentController::class, 'checkPayment']);
+Route::post('checkout/payment/status', [PaymentController::class, 'queryPayment']);
 
 
 

@@ -148,6 +148,63 @@ return json_decode($response);
     }
 
 
+    function queryPayment(Request $request) {
+
+        $paymentID = $request->paymentID;
+        $payment = Payment::where('paymentID',$paymentID)->first();
+
+        $id_token = $payment->id_token;
+        $app_key = $payment->app_key;
+
+
+
+
+
+
+
+        //  $baseUrl = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/';
+        //  $paymentCreateUrl = $baseUrl.'checkout/execute';
+
+        // $paymentCreate =  $this->apicall($paymentCreateHeader,$paymentCreateBody,$paymentCreateUrl);
+
+
+        $curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/status',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+	"paymentID" : "'.$paymentID.'"
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: '.$id_token,
+    'X-App-Key: '.$app_key,
+    'Content-Type: application/json'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+return json_decode($response);
+
+
+
+
+
+
+        // return $paymentCreate;
+
+
+    }
+
+
     function apicall($header=[],$body='',$url=''){
 
 
