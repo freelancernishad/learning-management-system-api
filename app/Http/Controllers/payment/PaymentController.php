@@ -153,7 +153,7 @@ return json_decode($response);
     function queryPayment(Request $request) {
 
         $paymentID = $request->paymentID;
-        $payment = Payment::where('paymentID',$paymentID)->first();
+        $payment = Payment::with(['student','course'])->where('paymentID',$paymentID)->first();
 
         $id_token = $payment->id_token;
         $app_key = $payment->app_key;
@@ -204,12 +204,16 @@ if($res->transactionStatus=='Completed' && $res->verificationStatus=='Complete')
     'student_id'=>$payment->student_id,
     'course_id'=>$payment->course_id,
   ];
-  $enrollment = StudentEnrollment::create($enrolldata);
+  $checkenrolment = StudentEnrollment::where($enrolldata)->count();
+  if($checkenrolment<1){
+      $enrollment = StudentEnrollment::create($enrolldata);
+  }
 
 
 }
+  $resData = ['bkash'=>$res,'payment'=>$payment];
 
-return $res;
+return $resData;
 
 
 
