@@ -76,6 +76,8 @@ Route::get('/enrollments/{id}', [EnrollmentController::class, 'show']);
 Route::put('/enrollments/{id}', [EnrollmentController::class, 'update']);
 Route::delete('/enrollments/{id}', [EnrollmentController::class, 'destroy']);
 
+Route::post('/enrollmented/course/{student_id}', [EnrollmentController::class, 'enrolledcourse']);
+
 
 
 

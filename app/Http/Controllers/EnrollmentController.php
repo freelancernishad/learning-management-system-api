@@ -87,4 +87,15 @@ class EnrollmentController extends Controller
 
         return response()->json(['message' => 'Enrollment deleted successfully'], 200);
     }
+
+
+    function enrolledcourse(Request $request,$student_id) {
+
+        $enrolledCourse = StudentEnrollment::with(['course'])->where('student_id',$student_id)->get();
+        return $enrolledCourse;
+
+    }
+
+
+
 }
