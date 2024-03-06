@@ -47,7 +47,7 @@ class PaymentController extends Controller
         $callbackURL = $request->callbackURL;
          $paymentCreateBody ='{
             "mode": "0011",
-            "payerReference": "01722597565",
+            "payerReference": "",
             "callbackURL": "'.$callbackURL.'",
             "merchantAssociationInfo": "MI05MID54RF09123456One",
             "amount": "'.$amount.'",
