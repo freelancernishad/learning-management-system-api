@@ -45,9 +45,10 @@ class PaymentController extends Controller
         $invoiceNo = 'Inv-'.time();
         $amount = $request->amount;
         $callbackURL = $request->callbackURL;
+        // "payerReference": "",
          $paymentCreateBody ='{
             "mode": "0011",
-            "payerReference": "",
+        
             "callbackURL": "'.$callbackURL.'",
             "merchantAssociationInfo": "MI05MID54RF09123456One",
             "amount": "'.$amount.'",
