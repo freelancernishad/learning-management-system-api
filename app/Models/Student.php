@@ -36,6 +36,10 @@ class Student extends Authenticatable implements JWTSubject
         'rating'
     ];
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
     public function getJWTIdentifier()
     {
         return $this->getKey();
