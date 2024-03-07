@@ -35,9 +35,12 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 
 Route::post('create/payment', [PaymentController::class, 'create']);
-
 Route::post('check/payment', [PaymentController::class, 'checkPayment']);
 Route::post('checkout/payment/status', [PaymentController::class, 'queryPayment']);
+
+Route::post('create/payment/ekpay', [PaymentController::class, 'ekpayPayment']);
+Route::post('payment/ekpay/ipn', [PaymentController::class, 'ekpayPaymentIpn']);
+Route::post('re/call/ekpay/ipn',[PaymentController::class ,'ekpayReCallIpn']);
 
 
 

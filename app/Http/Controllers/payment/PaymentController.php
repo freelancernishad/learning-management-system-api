@@ -5,6 +5,7 @@ namespace App\Http\Controllers\payment;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\StudentEnrollment;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class PaymentController extends Controller
@@ -248,6 +249,174 @@ return $resData;
 
         curl_close($curl);
         return json_decode($response);
+
+    }
+
+
+
+    function ekpayPayment(Request $request) {
+
+        $trnx_id = 'Inv-'.time();
+        $amount = $request->amount;
+        $callbackURL = $request->callbackURL;
+        $student_id = $request->input('student_id');
+        $course_id = $request->input('course_id');
+        $amount = 0;
+
+        if ($amount == null || $amount == '' || $amount < 1) {
+            $amount = 1;
+        } else {
+            $amount = $amount;
+        }
+
+        $cust_info = [
+            "cust_email" => "",
+            "cust_id" => "$student_id",
+            "cust_mail_addr" => "Address",
+            "cust_mobo_no" => "+8801909756552",
+            "cust_name" => "Customer Name"
+        ];
+        $trns_info = [
+            "ord_det" => 'sonod',
+            "ord_id" => "$course_id",
+            "trnx_amt" => $amount,
+            "trnx_currency" => "BDT",
+            "trnx_id" => "$trnx_id"
+        ];
+        // return $sonod->unioun_name;
+
+
+            $redirectutl = ekpayToken($trnx_id, $trns_info, $cust_info,$callbackURL);
+
+
+
+        $req_timestamp = date('Y-m-d H:i:s');
+
+        $payment = new Payment();
+        $payment->student_id = $request->input('student_id');
+        $payment->course_id = $request->input('course_id');
+        $payment->trxid = $trnx_id;
+        $payment->amount = $amount;
+        $payment->total_amount = $amount;
+        $payment->mobile_no = '+8801909756552';
+        $payment->date = date('Y-m-d');
+        $payment->status = 'Pending';
+        $payment->month = date('F');
+        $payment->year = date('Y');
+        $payment->payment_type = 'ekpay';
+        $payment->payment_url = $redirectutl;
+        $payment->save();
+
+        return $redirectutl;
+
+
+
+    }
+
+
+    function ekpayPaymentIpn(Request $request) {
+        $data = $request->all();
+        Log::info(json_encode($data));
+         $trnx_id = $data['trnx_info']['mer_trnx_id'];
+        $payment = payment::where('trxid', $trnx_id)->first();
+
+        $Insertdata = [];
+        if ($data['msg_code'] == '1020') {
+            $Insertdata = [
+                'status' => 'Paid',
+                'method' => $data['pi_det_info']['pi_name'],
+            ];
+
+            $enrolldata = [
+                'student_id'=>$payment->student_id,
+                'course_id'=>$payment->course_id,
+              ];
+              $checkenrolment = StudentEnrollment::where($enrolldata)->count();
+              if($checkenrolment<1){
+                  $enrollment = StudentEnrollment::create($enrolldata);
+              }
+
+        } else {
+            $Insertdata = ['status' => 'Failed',];
+        }
+        $Insertdata['ipnResponse'] = json_encode($data);
+        // return $Insertdata;
+        return $payment->update($Insertdata);
+    }
+
+
+    public function ekpayReCallIpn(Request $request)
+    {
+
+        $trnx_id = $request->trnx_id;
+
+        $payment = payment::where('trxid', $trnx_id)->first();
+
+        $trans_date = date("Y-m-d", strtotime($payment->date));
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => env('AKPAY_API_URL').'/get-status',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS =>'{
+
+         "trnx_id":"'.$trnx_id.'",
+         "trans_date":"'.$trans_date.'"
+
+        }',
+          CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json'
+          ),
+        ));
+
+        $response1 = curl_exec($curl);
+
+        curl_close($curl);
+         $data =  json_decode($response1);
+
+
+
+        //  return $data;
+
+        if($payment->status=='Paid'){
+
+            $message =  "This Transition already paid";
+            return [
+                'message'=>$message,
+                'ipn'=>$data,
+            ];
+        }
+
+
+        $Insertdata = [];
+        if ($data->msg_code == '1020') {
+            $Insertdata = [
+                'status' => 'Paid',
+                'method' => $data->pi_det_info->pi_name,
+            ];
+            $enrolldata = [
+                'student_id'=>$payment->student_id,
+                'course_id'=>$payment->course_id,
+              ];
+              $checkenrolment = StudentEnrollment::where($enrolldata)->count();
+              if($checkenrolment<1){
+                  $enrollment = StudentEnrollment::create($enrolldata);
+              }
+        } else {
+            $Insertdata = ['status' => 'Failed',];
+        }
+        $Insertdata['ipnResponse'] = json_encode($data);
+        // return $Insertdata;
+        return $payment->update($Insertdata);
+
+
 
     }
 

@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('year')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('ipn')->nullable();
-            $table->string('payment_url')->nullable();
+            $table->text('payment_url')->nullable();
             $table->string('paymentID')->nullable();
             $table->text('id_token')->nullable();
             $table->text('refresh_token')->nullable();
