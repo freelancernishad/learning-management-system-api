@@ -257,16 +257,16 @@ return $resData;
     function ekpayPayment(Request $request) {
 
         $trnx_id = 'Inv-'.time();
-        $amount = $request->amount;
+        $Totalamount = $request->amount;
         $callbackURL = $request->callbackURL;
         $student_id = $request->input('student_id');
         $course_id = $request->input('course_id');
         $amount = 0;
 
-        if ($amount == null || $amount == '' || $amount < 1) {
+        if ($Totalamount == null || $Totalamount == '' || $Totalamount < 1) {
             $amount = 1;
         } else {
-            $amount = $amount;
+            $amount = $Totalamount;
         }
 
         $cust_info = [
