@@ -26,17 +26,14 @@ class StudentController extends Controller
     {
 
         $rating = $request->rating;
-       $student = Student::find($id);
-       $student->update(['rating'=>$rating]);
+        $student = Student::find($id);
+        $student->update(['rating'=>$rating]);
         return response()->json($student);
     }
 
 
     public function store(Request $request)
     {
-
-
-
         // $validator = Validator::make($request->all(), [
         //     'founder_name' => 'required|string',
         //     'company_name' => 'required|string',
@@ -59,6 +56,8 @@ class StudentController extends Controller
         // }
          $password = Hash::make($request->input('password'));
 
+
+
         $validatedData = [
             'founder_name' => $request->founder_name,
             'company_name' => $request->company_name,
@@ -78,6 +77,15 @@ class StudentController extends Controller
             // 'attachment_file' => $request->attachment_file,
         ];
 
+            // Check if there's a referral code in the request
+            if ($request->has('ref_code')) {
+                // Look up the student with the provided referral code
+                $referer = Student::where('ref_code', $request->input('ref_code'))->first();
+                if ($referer) {
+                    // If found, set the referedby ID to the referer's ID
+                    $validatedData['referedby'] = $referer->id;
+                }
+            }
 
 
 
@@ -91,14 +99,34 @@ class StudentController extends Controller
     }
 
 
+    $validatedData['ref_code'] = $this->setRefCodeAttribute($request->founder_name);
 
-        $student = Student::create($validatedData);
+
+
+    $student = new Student($validatedData);
+
+        // $student = Student::create($validatedData);
+        $student->save();
         return response()->json($student, 201);
+    }
+
+
+
+    public function setRefCodeAttribute($value)
+    {
+        $refCode = strtolower(str_replace(' ', '', $value)); // Remove spaces and convert to lowercase
+        $counter = 1;
+        // Check if the generated ref_code is unique, if not, append a counter until it becomes unique
+        while (Student::where('ref_code', $refCode)->exists()) {
+            $refCode = strtolower(str_replace(' ', '', $value)) . $counter;
+            $counter++;
+        }
+        return $refCode;
     }
 
     public function show($id)
     {
-        $student = Student::with('exams')->find($id);
+        $student = Student::with('exams','referrals')->find($id);
         if (!$student) {
             return response()->json(['error' => 'Student not found'], 404);
         }

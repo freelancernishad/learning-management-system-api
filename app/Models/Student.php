@@ -33,6 +33,8 @@ class Student extends Authenticatable implements JWTSubject
         'linkedin_link',
         'attachment_file',
         'batch_id',
+        'ref_code',
+        'referedby',
         'rating'
     ];
 
@@ -71,6 +73,34 @@ class Student extends Authenticatable implements JWTSubject
     public function payments()
     {
         return $this->hasMany(Payment::class);
+    }
+
+
+
+    public function referer()
+    {
+        return $this->belongsTo(Student::class, 'referedby');
+    }
+
+    /**
+     * Generate and set a unique referral code based on the founder name.
+     */
+    public function setRefCodeAttribute($value)
+    {
+        $refCode = strtolower(str_replace(' ', '', $value)); // Remove spaces and convert to lowercase
+        $counter = 1;
+
+        // Check if the generated ref_code is unique, if not, append a counter until it becomes unique
+        while (Student::where('ref_code', $refCode)->exists()) {
+            $refCode = strtolower(str_replace(' ', '', $value)) . $counter;
+            $counter++;
+        }
+
+        $this->attributes['ref_code'] = $refCode;
+    }
+    public function referrals()
+    {
+        return $this->hasMany(Student::class, 'referedby');
     }
 
 }
