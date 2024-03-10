@@ -106,14 +106,17 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/student/exams', [ExamController::class, 'index']);
     Route::post('/student/exams', [ExamController::class, 'store']);
 
-    Route::post('/course-video/{path}', function ($path) {
-        // Serve the file from the protected disk
-        return response()->file(Storage::disk('protected')->path($path));
-    })->where('path', '.*');
+
 
 
 
 });
+
+Route::post('/course-video/{path}', function ($path) {
+    // Serve the file from the protected disk
+    return response()->file(Storage::disk('protected')->path($path));
+})->where('path', '.*');
+
 
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
