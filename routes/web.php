@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,14 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+Route::middleware('auth:student')->group(function () {
+
+    Route::get('/course-video/{path}', function ($path) {
+        // Serve the file from the protected disk
+        return response()->file(Storage::disk('protected')->path($path));
+    })->where('path', '.*');
+
+
+});

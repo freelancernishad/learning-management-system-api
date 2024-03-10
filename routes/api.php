@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\BatchController;
@@ -108,6 +109,7 @@ Route::middleware('auth:student')->group(function () {
 
 
 
+
 });
 
 
@@ -120,6 +122,10 @@ Route::post('/students', [StudentController::class, 'store']);
 
 
 Route::group(['middleware' => 'auth:api'], function () {
+
+
+
+
     Route::post('/logout', [AuthController::class, 'logout']);
     // Route::apiResource('students', StudentController::class);
 
@@ -136,7 +142,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('teachers', TeacherController::class);
     Route::apiResource('batches', BatchController::class);
     Route::apiResource('exams', ExamController::class);
-
 
 
 

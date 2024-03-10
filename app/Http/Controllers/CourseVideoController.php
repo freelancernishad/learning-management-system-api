@@ -19,16 +19,32 @@ class CourseVideoController extends Controller
         $validator = Validator::make($request->all(), [
             'video_name' => 'required|string|max:255',
             'course_module_id' => 'required|exists:course_modules,id',
-            'video_url' => 'required|url',
+            // 'video_url' => 'required|url',
+            'videoFile' => 'required|file|mimes:mp4,mov,avi,wmv|max:204800', // Adjusted validation rule for video files
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $video = CourseVideo::create($request->all());
+           // Handle file upload for video_url
+           if ($request->hasFile('videoFile')) {
+            $file = $request->file('videoFile');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('course_videos', $fileName, 'protected');
+        } else {
+            return response()->json(['error' => 'No video file provided.'], 422);
+        }
 
-        return response()->json(['data' => $video], 201);
+        // Create the course video record
+        $courseVideo = CourseVideo::create([
+            'video_name' => $request->input('video_name'),
+            'course_module_id' => $request->input('course_module_id'),
+            'description' => $request->input('description'),
+            'video_url' => url('course-video/'.$filePath),
+        ]);
+
+        return response()->json(['data' => $courseVideo], 201);
     }
 
     public function show($id)
