@@ -40,7 +40,7 @@ $AKPAY_MER_PASS_KEY = env('AKPAY_MER_PASS_KEY');
       "ipn_info" => [
          "ipn_channel" => "3",
          "ipn_email" => "freelancernishad123@gmail.com",
-         "ipn_uri" => "$url/payment/ekpay/ipn"
+         "ipn_uri" => "$url/api/payment/ekpay/ipn"
       ],
       "mac_addr" => "$whitelistip"
    ];
