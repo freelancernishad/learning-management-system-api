@@ -112,7 +112,7 @@ Route::middleware('auth:student')->group(function () {
 
 });
 
-Route::post('/course-video/{path}', function ($path) {
+Route::get('/course-video/{path}', function ($path) {
     // Serve the file from the protected disk
     return response()->file(Storage::disk('protected')->path($path));
 })->where('path', '.*');
