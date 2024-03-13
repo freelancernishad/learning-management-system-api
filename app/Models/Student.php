@@ -35,6 +35,8 @@ class Student extends Authenticatable implements JWTSubject
         'batch_id',
         'ref_code',
         'referedby',
+        'balance',
+        'refer_count',
         'rating'
     ];
 
@@ -102,5 +104,23 @@ class Student extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Student::class, 'referedby');
     }
+
+
+        /**
+     * Get the enrollments for the student.
+     */
+    public function enrollments()
+    {
+        return $this->hasMany(StudentEnrollment::class);
+    }
+
+    /**
+     * Get paid students (students who have enrolled in at least one course).
+     */
+    public static function getPaidStudents()
+    {
+        return static::has('enrollments')->get();
+    }
+
 
 }

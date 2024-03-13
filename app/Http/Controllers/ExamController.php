@@ -73,4 +73,7 @@ class ExamController extends Controller
 
         return response()->json(['message' => 'Exam deleted successfully'], 200);
     }
+
+
+
 }

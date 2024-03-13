@@ -84,6 +84,11 @@ class StudentController extends Controller
                 if ($referer) {
                     // If found, set the referedby ID to the referer's ID
                     $validatedData['referedby'] = $referer->id;
+                    
+                    $referer->increment('refer_count');
+
+
+
                 }
             }
 
@@ -126,7 +131,7 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        $student = Student::with('exams','referrals')->find($id);
+        $student = Student::with('exams','referrals','enrollments')->find($id);
         if (!$student) {
             return response()->json(['error' => 'Student not found'], 404);
         }
@@ -194,6 +199,10 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(['message' => 'Student deleted successfully']);
     }
+
+    function PaidStudents(){
+        return $paidStudents = Student::getPaidStudents();
+     }
 }
 
 

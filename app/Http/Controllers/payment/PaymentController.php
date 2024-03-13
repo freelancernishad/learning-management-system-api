@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\StudentEnrollment;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\Student;
 
 class PaymentController extends Controller
 {
@@ -331,8 +332,15 @@ return $resData;
                 'student_id'=>$payment->student_id,
                 'course_id'=>$payment->course_id,
               ];
+
+              $PayStudent = Student::find($payment->student_id);
+              $referedStudent = Student::find($PayStudent->referedby);
+
+
+
               $checkenrolment = StudentEnrollment::where($enrolldata)->count();
               if($checkenrolment<1){
+                  $update = $referedStudent->update(['balance'=>$referedStudent->balance+500]);
                   $enrollment = StudentEnrollment::create($enrolldata);
               }
 

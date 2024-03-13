@@ -110,6 +110,7 @@ Route::middleware('auth:student')->group(function () {
 
 
 
+
 });
 
 Route::get('/course-video/{path}', function ($path) {
@@ -152,7 +153,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 
 
+
 });
 
+Route::post('/paid/students', [StudentController::class, 'PaidStudents']);
 
 
