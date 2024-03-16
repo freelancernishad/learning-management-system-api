@@ -181,19 +181,10 @@ class StudentController extends Controller
 
         $validatedData = [
             'founder_name' => $request->founder_name,
-            'company_name' => $request->company_name,
-            'founder_email' => $request->founder_email,
-            'location' => $request->location,
             'founder_phone' => $request->founder_phone,
-            'business_category' => $request->business_category,
+       
             'founder_gender' => $request->founder_gender,
-            'website_url' => $request->website_url,
-            'employee_number' => $request->employee_number,
-            'formation_of_company' => $request->formation_of_company,
-            'company_video_link' => $request->company_video_link,
-            'facebook_link' => $request->facebook_link,
-            'youtube_link' => $request->youtube_link,
-            'linkedin_link' => $request->linkedin_link,
+      
             'attachment_file' => url('profile/'.$filePath),
         ];
 
