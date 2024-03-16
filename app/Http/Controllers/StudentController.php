@@ -169,6 +169,7 @@ class StudentController extends Controller
 
 
 
+        $filePath = '';
                   // Handle file upload for video_url
                   if ($request->hasFile('attachment_file')) {
                     $file = $request->file('attachment_file');
@@ -192,7 +193,7 @@ class StudentController extends Controller
             'facebook_link' => $request->facebook_link,
             'youtube_link' => $request->youtube_link,
             'linkedin_link' => $request->linkedin_link,
-            'attachment_file' => $filePath,
+            'attachment_file' => url('profile/pic/'.$filePath),
         ];
 
         $student->update($validatedData);
