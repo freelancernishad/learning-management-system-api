@@ -84,7 +84,7 @@ class StudentController extends Controller
                 if ($referer) {
                     // If found, set the referedby ID to the referer's ID
                     $validatedData['referedby'] = $referer->id;
-                    
+
                     $referer->increment('refer_count');
 
 
@@ -131,7 +131,7 @@ class StudentController extends Controller
 
     public function show($id)
     {
-        $student = Student::with('exams','referrals','enrollments')->find($id);
+        $student = Student::with('exams','referrals','enrollments','referredPaidStudents')->find($id);
         if (!$student) {
             return response()->json(['error' => 'Student not found'], 404);
         }

@@ -122,5 +122,14 @@ class Student extends Authenticatable implements JWTSubject
         return static::has('enrollments')->get();
     }
 
+    public function referredStudents()
+    {
+        return $this->hasMany(Student::class, 'referedby');
+    }
+
+    public function referredPaidStudents()
+    {
+        return $this->hasMany(Student::class, 'referedby');
+    }
 
 }
