@@ -146,26 +146,35 @@ class StudentController extends Controller
         }
 
 
-        $validator = Validator::make($request->all(), [
-            'founder_name' => 'required|string',
-            'company_name' => 'required|string',
-            'founder_email' => 'required|email',
-            'location' => 'required|string',
-            'founder_phone' => 'required|string',
-            'business_category' => 'required|string',
-            'founder_gender' => 'required|string',
-            'website_url' => 'nullable|string',
-            'employee_number' => 'nullable|integer',
-            'formation_of_company' => 'nullable',
-            'company_video_link' => 'nullable|string',
-            'facebook_link' => 'nullable|string',
-            'youtube_link' => 'nullable|string',
-            'linkedin_link' => 'nullable|string',
-            'attachment_file' => 'nullable|string',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'founder_name' => 'required|string',
+        //     'company_name' => 'required|string',
+        //     'founder_email' => 'required|email',
+        //     'location' => 'required|string',
+        //     'founder_phone' => 'required|string',
+        //     'business_category' => 'required|string',
+        //     'founder_gender' => 'required|string',
+        //     'website_url' => 'nullable|string',
+        //     'employee_number' => 'nullable|integer',
+        //     'formation_of_company' => 'nullable',
+        //     'company_video_link' => 'nullable|string',
+        //     'facebook_link' => 'nullable|string',
+        //     'youtube_link' => 'nullable|string',
+        //     'linkedin_link' => 'nullable|string',
+        //     'attachment_file' => 'nullable|string',
+        // ]);
+        // if ($validator->fails()) {
+        //     return response()->json(['errors' => $validator->errors()], 422);
+        // }
+
+
+
+                  // Handle file upload for video_url
+                  if ($request->hasFile('attachment_file')) {
+                    $file = $request->file('attachment_file');
+                    $fileName = time() . '_' . $file->getClientOriginalName();
+                    $filePath = $file->storeAs('profile_pic', $fileName, 'protected');
+                }
 
 
         $validatedData = [
@@ -183,7 +192,7 @@ class StudentController extends Controller
             'facebook_link' => $request->facebook_link,
             'youtube_link' => $request->youtube_link,
             'linkedin_link' => $request->linkedin_link,
-            'attachment_file' => $request->attachment_file,
+            'attachment_file' => $filePath,
         ];
 
         $student->update($validatedData);

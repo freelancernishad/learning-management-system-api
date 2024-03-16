@@ -102,6 +102,7 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/student/check-token', [StudentAuthController::class, 'checkToken']);
 
     Route::get('/students/profile/{id}', [StudentController::class, 'show']);
+    Route::put('/students/{id}', [StudentController::class, 'update']);
     Route::get('/exam/questions', [QuestionController::class, 'index']);
     Route::get('/student/exams', [ExamController::class, 'index']);
     Route::post('/student/exams', [ExamController::class, 'store']);
@@ -114,6 +115,11 @@ Route::middleware('auth:student')->group(function () {
 });
 
 Route::get('/course-video/{path}', function ($path) {
+    // Serve the file from the protected disk
+    return response()->file(Storage::disk('protected')->path($path));
+})->where('path', '.*');
+
+Route::get('/profile/pic/{path}', function ($path) {
     // Serve the file from the protected disk
     return response()->file(Storage::disk('protected')->path($path));
 })->where('path', '.*');
