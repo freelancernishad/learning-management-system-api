@@ -30,3 +30,11 @@ Route::middleware('auth:student')->group(function () {
 
 
 });
+
+
+Route::get('/profile/{path}', function ($path) {
+ 
+    // Serve the file from the protected disk
+    return response()->file(Storage::disk('protected')->path($path));
+})->where('path', '.*');
+

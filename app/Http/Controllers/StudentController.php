@@ -194,7 +194,7 @@ class StudentController extends Controller
             'facebook_link' => $request->facebook_link,
             'youtube_link' => $request->youtube_link,
             'linkedin_link' => $request->linkedin_link,
-            'attachment_file' => url('profile/pic/'.$filePath),
+            'attachment_file' => url('profile/'.$filePath),
         ];
 
         $student->update($validatedData);
