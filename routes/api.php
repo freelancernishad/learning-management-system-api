@@ -102,7 +102,7 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/student/check-token', [StudentAuthController::class, 'checkToken']);
 
     Route::get('/students/profile/{id}', [StudentController::class, 'show']);
-    Route::put('/students/{id}', [StudentController::class, 'update']);
+    Route::put('/students/update/{id}', [StudentController::class, 'update']);
     Route::get('/exam/questions', [QuestionController::class, 'index']);
     Route::get('/student/exams', [ExamController::class, 'index']);
     Route::post('/student/exams', [ExamController::class, 'store']);
