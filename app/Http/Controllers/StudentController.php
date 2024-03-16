@@ -145,7 +145,7 @@ class StudentController extends Controller
             return response()->json(['error' => 'Student not found'], 404);
         }
 
-        return $request->all();
+        return $request->founder_name;
 
         // $validator = Validator::make($request->all(), [
         //     'founder_name' => 'required|string',
