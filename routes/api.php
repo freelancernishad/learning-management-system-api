@@ -157,6 +157,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::apiResource('exams', ExamController::class);
 
 
+    Route::get('/payments', [PaymentController::class, 'index']);
 
 
 

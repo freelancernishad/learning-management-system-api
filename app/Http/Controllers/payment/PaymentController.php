@@ -11,6 +11,24 @@ use App\Models\Student;
 
 class PaymentController extends Controller
 {
+
+
+    public function index(Request $request)
+    {
+
+        $perpage = $request->perpage;
+        if($perpage){
+            $students = Payment::paginate($perpage);
+        }else{
+            $students = Payment::all();
+        }
+        return response()->json($students);
+    }
+
+
+
+
+
     function create(Request $request) {
 
         $baseUrl = 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/';
