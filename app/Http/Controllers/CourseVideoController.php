@@ -28,7 +28,7 @@ class CourseVideoController extends Controller
         }
 
            // Handle file upload for video_url
-           if ($request->hasFile('videoFile')) {
+        if ($request->hasFile('videoFile')) {
             $file = $request->file('videoFile');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('course_videos', $fileName, 'protected');

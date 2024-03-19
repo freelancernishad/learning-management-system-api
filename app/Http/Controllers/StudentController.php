@@ -56,7 +56,12 @@ class StudentController extends Controller
         // }
          $password = Hash::make($request->input('password'));
 
+         $Studentcheck = Student::where('founder_email',$request->founder_email)->count();
 
+
+         if($Studentcheck>0){
+            return response()->json('this email already registered', 422);
+         }
 
         $validatedData = [
             'founder_name' => $request->founder_name,
@@ -182,9 +187,7 @@ class StudentController extends Controller
         $validatedData = [
             'founder_name' => $request->founder_name,
             'founder_phone' => $request->founder_phone,
-       
             'founder_gender' => $request->founder_gender,
-      
             'attachment_file' => url('profile/'.$filePath),
         ];
 
