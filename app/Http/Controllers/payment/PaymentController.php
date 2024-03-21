@@ -360,11 +360,11 @@ return $resData;
               $checkenrolment = StudentEnrollment::where($enrolldata)->count();
               if($checkenrolment<1){
 
-                if($referedStudent){
-                    $update = $referedStudent->update(['balance'=>$referedStudent->balance+500]);
-                }
+                    if($referedStudent){
+                        $update = $referedStudent->update(['balance'=>$referedStudent->balance+500]);
+                    }
 
-                  $enrollment = StudentEnrollment::create($enrolldata);
+                    $enrollment = StudentEnrollment::create($enrolldata);
               }
 
         } else {
