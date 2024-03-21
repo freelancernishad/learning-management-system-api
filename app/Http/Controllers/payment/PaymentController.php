@@ -355,15 +355,11 @@ return $resData;
 
               $referedStudent = Student::find($PayStudent->referedby);
 
-
-
               $checkenrolment = StudentEnrollment::where($enrolldata)->count();
               if($checkenrolment<1){
-
                     if($referedStudent){
                         $update = $referedStudent->update(['balance'=>$referedStudent->balance+500]);
                     }
-
                     $enrollment = StudentEnrollment::create($enrolldata);
               }
 
