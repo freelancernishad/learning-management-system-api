@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000'),'http://localhost:5173','http://localhost:8000','https://64bc1285c1e5940d153b72a0--buddy-bazar-ecommerce.netlify.app','https://buddy-bazar-ecommerce.netlify.app','https://lms-2023.netlify.app','https://s2a-e.shop'],
+    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000'),'http://localhost:5173','http://localhost:8000','https://64bc1285c1e5940d153b72a0--buddy-bazar-ecommerce.netlify.app','https://buddy-bazar-ecommerce.netlify.app','https://lms-2023.netlify.app','https://s2a-e.shop','https://www.s2adigitalworld.com','https://s2adigitalworld.com'],
 
     'allowed_origins_patterns' => [],
 
